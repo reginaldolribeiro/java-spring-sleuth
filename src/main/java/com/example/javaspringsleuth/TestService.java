@@ -15,22 +15,22 @@ public class TestService {
     private Tracer tracer;
 
     private static Logger log = LoggerFactory.getLogger(TestController.class);
-    private final DemoClient demoClient;
+//    private final DemoClient demoClient;
 
-    public TestService(DemoClient demoClient) {
-        this.demoClient = demoClient;
-    }
+//    public TestService(DemoClient demoClient) {
+//        this.demoClient = demoClient;
+//    }
 
     public void test() throws InterruptedException {
         log.info("Test service...");
         Span newSpan = tracer.nextSpan().name("CustomSpan2").start();
         try (Tracer.SpanInScope ws = tracer.withSpan(newSpan.start())) {
             newSpan.tag("customkey", "banana");
-//            MDC.put("customkey", "banana");
+            MDC.put("customkey", "banana");
             Thread.sleep(1000L);
             log.info("Span2!");
-            String response = demoClient.getApi();
-            log.info("Response DemoApi: " + response);
+//            String response = demoClient.getApi();
+//            log.info("Response DemoApi: " + response);
         } finally {
             newSpan.end();;
         }
